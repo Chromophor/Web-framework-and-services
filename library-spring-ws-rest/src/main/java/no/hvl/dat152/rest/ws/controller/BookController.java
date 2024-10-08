@@ -81,14 +81,14 @@ public class BookController {
 		}
 	}
 
-	@PutMapping("/books")
-	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
+	@PutMapping("/books/{isbn}")
+	public ResponseEntity<Book> updateBook(@RequestBody Book book,@PathVariable String isbn) {
 		if (book == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		try {
-			Book newbook = bookService.updateBook(book);
+			Book newbook = bookService.updateBook(book, isbn);
 			return new ResponseEntity<>(newbook, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
