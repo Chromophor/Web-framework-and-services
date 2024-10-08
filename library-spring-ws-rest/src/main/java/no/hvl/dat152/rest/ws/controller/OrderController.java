@@ -51,15 +51,15 @@ public class OrderController {
 	}
 	
 	// TODO - updateOrder (@Mappings, URI=/orders/{id}, and method)
-	@PutMapping("/orders")
-	public ResponseEntity<Order> updateOrder(@RequestBody Order order) {
+	@PutMapping("/orders/{id}")
+	public ResponseEntity<Order> updateOrder(@RequestBody Order order,@PathVariable ("id") long id) {
 		if (order == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		try {
-			orderService.updateOrder(order);	
-			return new ResponseEntity<>(HttpStatus.OK);
+			Order neworder = orderService.updateOrder(order , id);
+			return new ResponseEntity<>(neworder, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
