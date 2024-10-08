@@ -81,4 +81,36 @@ public class LibraryExceptionHandler {
 		return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+			/**
+	 * Specific error message for update
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(value = UpdateAuthorFailedException.class)
+	public ResponseEntity<String> updateAuthorFailed(UpdateAuthorFailedException ex) {
+		
+		return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.NOT_MODIFIED);
+	}
+
+		/**
+	 * Specific error message for update
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(value = UpdateOrderFailedException.class)
+	public ResponseEntity<String> updateOrderFailed(UpdateOrderFailedException ex) {
+		
+		return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.NOT_MODIFIED);
+	}
+
+		/**
+	 * Specific error message for update
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(value = UpdateUserFailedException.class)
+	public ResponseEntity<String> updateUserFailed(UpdateUserFailedException ex) {
+		
+		return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.NOT_MODIFIED);
+	}
 }
