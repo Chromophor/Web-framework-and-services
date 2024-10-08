@@ -106,7 +106,7 @@ public class UserController {
 	@DeleteMapping("/users/{userId}/orders/{orderId}")
 	public ResponseEntity<Void> deleteUserOrder(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId) throws UserNotFoundException, OrderNotFoundException {
 		userService.deleteOrderForUser(userId, orderId);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links

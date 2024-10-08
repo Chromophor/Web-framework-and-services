@@ -71,7 +71,7 @@ public class BookService {
 		return bookRepository.findAll(page).getContent();
 	}
 	
-	public Set<Author> findAuthorsOfBooksByISBN(String isbn) throws BookNotFoundException {
+	public Set<Author> findAuthorsOfBookByISBN(String isbn) throws BookNotFoundException {
 		try {
 			Book book = bookRepository.findBookByISBN(isbn);
 			return book.getAuthors();

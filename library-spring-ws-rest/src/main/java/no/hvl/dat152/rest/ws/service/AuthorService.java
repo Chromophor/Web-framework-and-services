@@ -38,8 +38,13 @@ public class AuthorService {
 	}
 		
 	
-	public Author updateAuthor(Author author) {
-		return authorRepository.save(author);
+	public Author updateAuthor(Long id, Author author) throws AuthorNotFoundException {
+		Author newAuthor = authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException("Author with the id: " + id + " not found!"));
+
+		newAuthor.setFirstname(author.getFirstname());
+		newAuthor.setLastname(author.getLastname());
+		newAuthor.setBooks(author.getBooks());
+		return newAuthor;
 	}
 	
 	

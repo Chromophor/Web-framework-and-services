@@ -59,15 +59,15 @@ public class AuthorController {
 		return new ResponseEntity<>(nAuthor, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/authors")
-	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
+	@PutMapping("/authors/{id}")
+	public ResponseEntity<Author> updateAuthor(@PathVariable("id") Long id, @RequestBody Author author) {
 		if (author == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		try {
-			authorService.updateAuthor(author);	
-			return new ResponseEntity<>(HttpStatus.OK);
+			Author newAuthor = authorService.updateAuthor(id, author);	
+			return new ResponseEntity<>(newAuthor, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
