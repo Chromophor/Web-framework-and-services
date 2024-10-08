@@ -27,9 +27,8 @@ public class BookService {
 	
 	
 	public Book saveBook(Book book) {
-		
 		return bookRepository.save(book);
-		
+
 	}
 	
 	public List<Book> findAll(){
@@ -53,13 +52,17 @@ public class BookService {
 	 * @param book the book object containing updated information
 	 * @return the updated book object
 	 */
-	public Book updateBook(Book book) throws UpdateBookFailedException{
+	public Book updateBook(Book book, String isbn) throws UpdateBookFailedException{
 		if(book == null){
 			throw new UpdateBookFailedException("No book was provided, update not possible");
 		}
 
 		try {
-			bookRepository.save(book);
+			Book newBook = findByISBN(isbn);
+			newBook.setId(book.getId());
+			newBook.setIsbn(isbn);
+			newBook.setTitle(book.getTitle());
+			newBook.setAuthors(book.getAuthors());
 		} catch (Exception e) {
 			throw new UpdateBookFailedException("Book could not be updated");
 		}

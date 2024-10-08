@@ -6,6 +6,8 @@ package no.hvl.dat152.rest.ws.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import no.hvl.dat152.rest.ws.exceptions.AuthorNotFoundException;
+import no.hvl.dat152.rest.ws.model.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -57,15 +59,16 @@ public class OrderService {
 		return order;
 	}
 	
-	public Order updateOrder(Order order) throws UpdateOrderFailedException{
-		if (order == null)
-			throw new UpdateOrderFailedException("No order for update provided");
-
+	public Order updateOrder(Order order, long id) throws UpdateOrderFailedException{
+		Order order1 = new Order();
 		try {
-			return orderRepository.save(order);
-		}catch(Exception e) {
-			throw new UpdateOrderFailedException("Order not found!");
+			order1 = findOrder(id);
+		} catch (OrderNotFoundException e) {
+			throw new RuntimeException(e);
 		}
+		order1.setIsbn(order.getIsbn());
+		order1.setExpiry(order.getExpiry());
+		return order1;
 	}
 
 }
