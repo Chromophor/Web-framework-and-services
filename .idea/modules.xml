@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Web-framework-and-services.iml" filepath="$PROJECT_DIR$/.idea/Web-framework-and-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-spring-ws-rest/demo.iml" filepath="$PROJECT_DIR$/library-spring-ws-rest/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-spring-ws-rest-security/demo (1).iml" filepath="$PROJECT_DIR$/library-spring-ws-rest-security/demo (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-spring-ws-rest-security-oauth/demo (2).iml" filepath="$PROJECT_DIR$/library-spring-ws-rest-security-oauth/demo (2).iml" />
+    </modules>
+  </component>
+</project>
