@@ -40,5 +40,39 @@ public class AuthorController {
 	
 	// TODO - updateAuthor (@Mappings, URI, and method)
 
+	@Autowired
+	AuthorService authorService = new AuthorService();
+
+	@GetMapping("/authors")
+	public ResponseEntity<Object> getAllAuthor(){
+		
+		List<Author> author = authorService.findAll();
+		
+		if(author.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		return new ResponseEntity<>(author, HttpStatus.OK);		
+	}
+
+	@GetMapping("/authors/{id}")
+	public ResponseEntity<Author> getAuthorById(@PathVariable("id") Long id) {
+
+		Author author;
+		try {
+			author = authorService.findById(id);
+		} catch (AuthorNotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Author>(author,HttpStatus.OK);
+	}
+
+	@PutMapping("authors")
+	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
+
+		authorService.saveAuthor(author);
+		return new ResponseEntity<>(author, HttpStatus.OK);
+	}
+
 
 }

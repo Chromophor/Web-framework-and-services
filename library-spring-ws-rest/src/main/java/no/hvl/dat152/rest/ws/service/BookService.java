@@ -4,6 +4,7 @@
 package no.hvl.dat152.rest.ws.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,60 @@ public class BookService {
 		return book;
 	}
 	
-	// TODO public Book updateBook(Book book, String isbn)
+	/**
+	 * Updates an existing book in the repository.
+	 *
+	 * @param book the book object containing updated information
+	 * @return the updated book object
+	 */
+	public Book updateBook(Book book) throws UpdateBookFailedException{
+		if(book == null){
+			throw new UpdateBookFailedException("No book was provided, update not possible");
+		}
+
+		try {
+			bookRepository.save(book);
+		} catch (Exception e) {
+			throw new UpdateBookFailedException("Book could not be updated");
+		}
+
+		return book;
+	}
 	
-	// TODO public List<Book> findAllPaginate(Pageable page)
+	public List<Book> findAllPaginate(Pageable page) {
+		return bookRepository.findAll(page).getContent();
+	}
 	
-	// TODO public Set<Author> findAuthorsOfBookByISBN(String isbn)
+	public Set<Author> findAuthorOfBooksByISBN(String isbn) throws BookNotFoundException {
+		try {
+			Book book = bookRepository.findBookByISBN(isbn);
+			return book.getAuthors();
+		} catch (Exception e) {
+			throw new BookNotFoundException("Book with id = "+isbn+" was not found!");
+		}
+	}
 	
-	// TODO public void deleteById(long id)
+	public void DeleteById(Long id) throws BookNotFoundException {
+		try {
+			bookRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new BookNotFoundException("Book with id = "+id+" could not be deleted!");
+		}
+	}
 	
-	// TODO public void deleteByISBN(String isbn) 
+	/**
+	 * Deletes a book from the repository based on its ISBN.
+	 *
+	 * @param isbn the ISBN of the book to be deleted
+	 */
+	public void deleteByISBN(String isbn) throws BookNotFoundException {
+		Book book = null;
+		try {
+			book = bookRepository.findBookByISBN(isbn);
+		}catch(Exception e) {
+			throw new BookNotFoundException("Book with isbn = "+isbn+" not found!");
+		}
+		bookRepository.delete(book);
+	}
 	
 }

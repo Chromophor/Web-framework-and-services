@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LibraryApplication<com.example.web-demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "no.hvl.dat152.rest.ws.main.LibraryApplication",
+            "projectName": "com.example.web-demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
