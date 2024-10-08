@@ -29,9 +29,8 @@ public class BookService {
 	
 	
 	public Book saveBook(Book book) {
-		
 		return bookRepository.save(book);
-		
+
 	}
 	
 	public List<Book> findAll(){
@@ -73,7 +72,7 @@ public class BookService {
 		return bookRepository.findAll(page).getContent();
 	}
 	
-	public Set<Author> findAuthorOfBooksByISBN(String isbn) throws BookNotFoundException {
+	public Set<Author> findAuthorsOfBookByISBN(String isbn) throws BookNotFoundException {
 		try {
 			Book book = bookRepository.findBookByISBN(isbn);
 			return book.getAuthors();

@@ -88,8 +88,8 @@ public class BookController {
 		}
 		
 		try {
-			bookService.updateBook(book);	
-			return new ResponseEntity<>(HttpStatus.OK);
+			Book newbook = bookService.updateBook(book);
+			return new ResponseEntity<>(newbook, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
