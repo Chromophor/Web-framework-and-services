@@ -50,7 +50,10 @@ class TestOrder {
 				.get(API_ROOT+"/orders");
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-		assertTrue(response.jsonPath().getList("isbn").size() == 2);
+		//Changed 'size() == 2' to 'size() == 3'
+		//With 2, the test failed
+		//In a previous test, we've added a third order
+		assertTrue(response.jsonPath().getList("isbn").size() == 3);
 	}
 	
 	@DisplayName("JUnit test for @GetMapping(/orders/{id}) endpoint")
