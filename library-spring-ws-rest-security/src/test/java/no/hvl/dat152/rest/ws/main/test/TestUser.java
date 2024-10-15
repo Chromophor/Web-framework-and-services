@@ -1,11 +1,9 @@
 package no.hvl.dat152.rest.ws.main.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +14,6 @@ import org.springframework.http.MediaType;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import no.hvl.dat152.rest.ws.exceptions.UserNotFoundException;
-import no.hvl.dat152.rest.ws.model.Order;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -89,7 +86,7 @@ class TestUser {
 				.post(API_ROOT+"/users/{id}/orders", 2);
 		
 		List<Object> isbns = response.jsonPath().getList("orders.isbn");
-		List<Object> hrefs = response.jsonPath().getList("orders.links");
+		List<Object> hrefs = response.jsonPath().getList("orders._links");
 		
 	    assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 	    assertTrue(isbns.contains("rstuv1540"));
