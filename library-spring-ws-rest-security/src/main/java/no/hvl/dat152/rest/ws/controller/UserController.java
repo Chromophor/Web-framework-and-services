@@ -49,8 +49,9 @@ public class UserController {
     @GetMapping(value = "/users/{id}")
     public ResponseEntity<Object> getUser(@PathVariable("id") Long id) throws UserNotFoundException, OrderNotFoundException{
 
-        User user = userService.findUser(id);
-        //addLinks(user.getOrders());
+        try {
+            User user = userService.findUser(id);
+            //addLinks(user.getOrders());
         // Add a self-link for the user
         Link selfLink = linkTo(methodOn(UserController.class).getUser(id)).withSelfRel();
         user.add(selfLink);
@@ -63,6 +64,10 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
 
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
     }
 
     // TODO - createUser (@Mappings, URI=/users, and method)

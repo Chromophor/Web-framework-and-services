@@ -37,8 +37,8 @@ public class AdminUserController {
 		
 		// TODO
 		try {
-			userService.updateUserRole(id, role);
-			return new ResponseEntity<>("Role " + role + " assigned to user with ID " + id, HttpStatus.OK);
+			User user = userService.updateUserRole(id, role);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -52,8 +52,8 @@ public class AdminUserController {
 		
 		// TODO
 		try {
-			userService.deleteUserRole(id, role);
-			return new ResponseEntity<>("Role " + role + " revoked from user with ID " + id, HttpStatus.OK);
+			User user = userService.deleteUserRole(id, role);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

@@ -88,8 +88,8 @@ class TestUser {
 				.body(order)
 				.post(API_ROOT+"/users/{id}/orders", 2);
 		
-		List<Object> isbns = response.jsonPath().getList("isbn");
-		List<Object> hrefs = response.jsonPath().getList("links");
+		List<Object> isbns = response.jsonPath().getList("orders.isbn");
+		List<Object> hrefs = response.jsonPath().getList("orders.links");
 		
 	    assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 	    assertTrue(isbns.contains("rstuv1540"));

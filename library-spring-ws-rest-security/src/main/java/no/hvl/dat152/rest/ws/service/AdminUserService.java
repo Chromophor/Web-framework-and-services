@@ -53,8 +53,8 @@ public class AdminUserService {
 		// Find the user by ID
 		User user = findUser(id);
 
-		// Find the role in the role repository
 		Role roleEntity = roleRepository.findByName(roleName);
+		
 		if (roleEntity == null) {
 			throw new IllegalArgumentException("Role " + roleName + " not found.");
 		}
