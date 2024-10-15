@@ -103,12 +103,11 @@ public class UserService {
 
 	}
 	// TODO public User createOrdersForUser(Long userid, Order order)
-	public void createOrdersForUser(Long userid, List<Order> orders) throws UserNotFoundException {
+	public void createOrderForUser(Long userid, Order order) throws UserNotFoundException {
 		try{
 			User user = findUser(userid);
-			for (Order order : orders) {
-				user.addOrder(order);
-			}
+			user.addOrder(order);
+			userRepository.save(user);
 		} catch (UserNotFoundException e) {
 			throw new RuntimeException(e);
 		}

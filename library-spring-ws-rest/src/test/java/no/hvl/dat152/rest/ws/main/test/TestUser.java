@@ -123,9 +123,12 @@ class TestUser {
 				.body(order)
 				.post(API_ROOT+"/users/{id}/orders", "2");
 
-		List<Object> isbns = response.jsonPath().getList("isbn");
-		List<Object> hrefs = response.jsonPath().getList("links");
-		
+		System.out.println(response.getBody().asString());
+
+
+		List<Object> isbns = response.jsonPath().getList("orders.isbn");
+		List<Object> hrefs = response.jsonPath().getList("orders._links");
+
 	    assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 	    assertTrue(isbns.contains("rstuv1540"));
 	    assertTrue(hrefs.get(0).toString().contains("href"));

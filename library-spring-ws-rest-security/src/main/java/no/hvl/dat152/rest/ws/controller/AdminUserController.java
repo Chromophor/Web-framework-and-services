@@ -30,23 +30,33 @@ public class AdminUserController {
 	private AdminUserService userService;
 	
 	@PutMapping("/users/{id}")
+	@PreAuthorize("hasAuthority('SUPER_ADMIN')")
 	// TODO authority annotation
 	public ResponseEntity<Object> updateUserRole(@PathVariable("id") Long id, @RequestParam("role") String role) 
 			throws UserNotFoundException{
 		
 		// TODO
-		
-		return null;
+		try {
+			userService.updateUserRole(id, role);
+			return new ResponseEntity<>("Role " + role + " assigned to user with ID " + id, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
-	
+
+	@PreAuthorize("hasAuthority('SUPER_ADMIN')")
 	@DeleteMapping("/users/{id}")
 	// TODO authority annotation
 	public ResponseEntity<Object> deleteUserRole(@PathVariable("id") Long id, 
 			@RequestParam("role") String role) throws UserNotFoundException{
 		
 		// TODO
-		
-		return null;
+		try {
+			userService.deleteUserRole(id, role);
+			return new ResponseEntity<>("Role " + role + " revoked from user with ID " + id, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 }

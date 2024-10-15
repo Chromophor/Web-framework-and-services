@@ -37,5 +37,74 @@ import no.hvl.dat152.rest.ws.service.BookService;
 public class BookController {
 	
 	// TODO authority annotation
+    @Autowired
+    private BookService bookService;
 
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/books")
+    public ResponseEntity<Object> getAllBooks(){
+
+        List<Book> books = bookService.findAll();
+
+        if(books.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/books/{isbn}")
+    public ResponseEntity<Object> getBook(@PathVariable("isbn") String isbn) throws BookNotFoundException{
+
+        Book book = bookService.findByISBN(isbn);
+
+        return new ResponseEntity<>(book, HttpStatus.OK);
+
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @PostMapping("/books")
+    public ResponseEntity<Book> createBook(@RequestBody Book book){
+
+        Book nbook = bookService.saveBook(book);
+
+        return new ResponseEntity<>(nbook, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/books/{isbn}/authors") //new
+    public ResponseEntity<Object> getAuthorsOfBookByISBN(@PathVariable("isbn") String isbn) throws BookNotFoundException{
+        try {
+            Set<Author> authors = bookService.findAuthorsOfBookByISBN(isbn);
+            return new ResponseEntity<>(authors, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @DeleteMapping("/books/{isbn}")
+    public ResponseEntity<Book> deleteByISBN(@PathVariable("isbn") String isbn) {
+        try {
+            bookService.deleteByISBN(isbn);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @PutMapping("/books/{isbn}")
+    public ResponseEntity<Book> updateBook(@RequestBody Book book,@PathVariable String isbn) {
+        if (book == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        try {
+            Book newbook = bookService.updateBook(book, isbn);
+            return new ResponseEntity<>(newbook, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

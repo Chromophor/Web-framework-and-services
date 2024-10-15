@@ -48,7 +48,7 @@ class TestOrder {
 				.param("page", 0)
 				.param("size", 2)
 				.get(API_ROOT+"/orders");
-		
+
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.jsonPath().getList("isbn").size() == 2);
 	}

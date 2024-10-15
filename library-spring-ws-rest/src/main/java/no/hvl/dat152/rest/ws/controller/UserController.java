@@ -85,7 +85,7 @@ public class UserController {
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) throws UserNotFoundException {
 		userService.deleteUser(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// TODO - getUserOrders (@Mappings, URI=/users/{id}/orders, and method)
@@ -111,33 +111,29 @@ public class UserController {
 
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
 	@PostMapping("/users/{userId}/orders")
-	public ResponseEntity<User> createUserOrder(@PathVariable("userId") Long userId, @RequestBody List<Order> orders) throws UserNotFoundException, OrderNotFoundException {
-		userService.createOrdersForUser(userId, orders);
-		//return new ResponseEntity<>(HttpStatus.CREATED);
-
+	public ResponseEntity<User> createUserOrder(@PathVariable("userId") Long userId, @RequestBody Order order) throws UserNotFoundException, OrderNotFoundException {
+		userService.createOrderForUser(userId, order);
 		User user = userService.findUser(userId);
-		// Add a self-link for the user
+
+		// Add HATEOAS links as before
 		Link selfLink = linkTo(methodOn(UserController.class).getUser(userId)).withSelfRel();
 		user.add(selfLink);
 
-		// Add HATEOAS links for each of the orders
-		for (Order order : user.getOrders()) {
-			Link orderLink = linkTo(methodOn(UserController.class).getUserOrder(userId, order.getId())).withSelfRel();
-			order.add(orderLink);
+		for (Order orders : user.getOrders()) {
+			Link orderLink = linkTo(methodOn(UserController.class).getUserOrder(userId, orders.getId())).withSelfRel();
+			orders.add(orderLink);
 
-			// Optionally, add a link to delete the order
-			Link deleteLink = linkTo(methodOn(UserController.class).deleteUserOrder(userId, order.getId())).withRel("deleteOrder");
-			order.add(deleteLink);
+			Link deleteLink = linkTo(methodOn(UserController.class).deleteUserOrder(userId, orders.getId())).withRel("deleteOrder");
+			orders.add(deleteLink);
 		}
 
-		// Add a link to all orders for this user
 		Link userOrdersLink = linkTo(methodOn(UserController.class).getUserOrders(userId)).withRel("allOrders");
 		user.add(userOrdersLink);
 
-		// Return the updated user with links
 		return ResponseEntity.created(linkTo(methodOn(UserController.class).getUserOrders(userId)).toUri())
 				.body(user);
 	}
+
 
 
 }
